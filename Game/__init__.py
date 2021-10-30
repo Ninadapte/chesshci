@@ -22,13 +22,24 @@ def getBoardRowColFromPos(pos):
     return -1, -1
 
 
+
 class UI:
     # MODE_VOICE = 1
     # MODE_GESTURES = 0
+    handgesture = False
+    product_sans_path = "resources/Product Sans Regular.ttf"
+    settings_clicked = False
+    info_clicked = False
+    volume = 50
+    theme_selected = 'Classic'
+    first = True
+    
     def __init__(self, win, chessBoard, gameMode=MODE_VOICE, p1Name="Player 1", p2Name="Player 2"):
-
+        
         self.running = True
-
+        #variable for hand gesture
+        
+        
         self.win = win
         self.chessBoard = chessBoard
         self.selectedPiece = None
@@ -37,7 +48,7 @@ class UI:
         self.castleLoc = {}
         self.promotionMove = None
         self.dialog = False
-
+        
         self.gameMode = gameMode
 
         self.p1Name = p1Name
@@ -81,6 +92,8 @@ class UI:
         self.win.blit(title, (TitleStartX, TitleStartY))
 
     def drawMenu(self):
+        
+        
         pygame.draw.rect(self.win, MenuColor, ((MenuStartX, MenuStartY), (MenuLenX, MenuLenY)))
 
         txtX = (TitleStartX + TitleLenX) // 2
@@ -350,7 +363,7 @@ class UI:
 
                 # Settings.
                 if Y < col < Y + MenuBtnHeight:
-                    print("Settings not implemented.")
+                    UI.settings_clicked = True
                 Y += btnPadding + MenuBtnHeight
 
                 # Continue with friend/bot.
@@ -377,8 +390,11 @@ class UI:
     def switchGameMode(self):
         message = "*Switching "
         if self.gameMode:
+            UI.handgesture  = True
             message += "game mode to*Hand gestures!"
+
         else:
+            UI.handgesture = False
             message += "game mode to*Voice commands!"
         self.gameMode = not self.gameMode
 
